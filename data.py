@@ -43,6 +43,6 @@ class DB_action():
             return e
 
 class Ids():
-    tech: int = -1002085744420
+    tech: int = 
     targets: list[int] = DB_action().get("Targets")
     donors: list[int] = DB_action().get("Donors")
