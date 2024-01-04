@@ -1,70 +1,48 @@
-'''module providing asynchronous work of code'''
-import asyncio
-from pyrogram import filters
-from data import DB_action, Ids
-from app import App
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
-db = DB_action()
-ids = Ids()
-app = App().creating()
+class DB_action():
+    def __init__(self):
 
+        from dotenv import load_dotenv, find_dotenv
+        from os import environ
 
-@app.on_message(filters.channel &
-                filters.chat(ids.donors))
-async def copy_message_to_tech(message):
-    ''' '''
-    await app.copy_message(
-        chat_id=ids.tech,
-        from_chat_id=message.chat.id,
-        message_id=message.id)
+        load_dotenv(find_dotenv())
+        password = environ.get("MONGODB_PWD")
+        user = environ.get("MONGODB_USER")
+        conn_string = f"mongodb+srv://{user}:{password}@cluster0.vk1gemz.mongodb.net/?retryWrites=true&w=majority"
+        client = MongoClient(conn_string)
+        self.db = client.BotDataBase
 
+    def get(self, coll_name: str = None) -> list[str]:
+        collection = self.db.Targets if coll_name == "Targets" else self.db.Donors
 
-@app.on_message(filters=filters.command(["send"]) &
-                filters.chat(ids.tech) &
-                filters.reply)
-async def send(message):
-    ''' '''
-    for chat_id in ids.targets:
+        result = []
+        cursor = collection.find()
+        
+        for x in cursor:
+            result.append(x['channel_id'])
+        return result
+
+    def send(self, coll_name, ids: str = None) -> str:
+        collection = self.db.Targets if coll_name == "Targets" else self.db.Donors
+        ids = set(ids.replace(" ", "").split(","))
+        length = 0
         try:
-            await app.copy_message(
-                chat_id=chat_id,
-                from_chat_id=ids.tech,
-                message_id=message.reply_to_message.id)
+            for id in ids:
+                temp = collection.find({'channel_id': f'{id}'})
+                id_in_base = [x['channel_id'] for x in temp]
+
+                if id not in id_in_base:
+                    collection.insert_one({
+                    "channel_id": id})
+                    length+=1
+            return (f"Successfully added {length} id's to database", ids)
+
         except Exception as e:
-            await app.send_message(
-                chat_id=message.reply_to_message.chat.id,
-                text=f'Error sending message to {chat_id}: {e}')
+            return e
 
-
-@app.on_message(filters=filters.command(['add_donors']) &
-                filters.chat(ids.tech) &
-                filters.reply)
-async def add_donors(message):
-    ''' At command 'add_targets' with replying to message,
-        bot will add channel's id's in replied  to 'Targets' in database'''
-    await app.send_message(
-        chat_id=message.reply_to_message.chat.id,
-        text=db.send("Donors", message.reply_to_message.text))
-
-@app.on_message(filters=filters.command(['add_targets']) &
-                filters.chat(ids.tech) &
-                filters.reply)
-async def add_targets(message):
-    """At command 'add_targets' with replying to message,
-        bot will add channel's id's in replied  to 'Targets' in database"""
-    await app.send_message(
-        chat_id=message.reply_to_message.chat.id, 
-        text=db.send("Targets", message.reply_to_message.text))
-
-
-@app.on_message(filters=filters.command(['join']) &
-                filters.chat(ids.tech) &
-                filters.reply)
-async def join_channels(message):
-    """At command 'join' with replying to message, bot will
-        join to channels, wroten in this message"""
-    await app.send_message(
-        chat_id=message.reply_to_message.chat.id,
-        text=App.join(chat_ids=message.text.replace(" ", "").split(",")))
-
-asyncio.run(app.run())
+class Ids():
+    tech: int = 
+    targets: list[int] = DB_action().get("Targets")
+    donors: list[int] = DB_action().get("Donors")
