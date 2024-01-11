@@ -65,6 +65,7 @@ async def join_channels(bot, message):
         join to channels, wroten in this message"""
     await app.send_message(
         chat_id=message.reply_to_message.chat.id,
-        text=App.join(chat_ids=message.text.replace(" ", "").split(",")))
+        text=App.join(chat_ids=
+                      message.text.replace(" ", "").replace("\n", "").split()))
 
 asyncio.run(app.run())
