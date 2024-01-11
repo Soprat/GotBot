@@ -68,4 +68,4 @@ async def join_channels(bot, message):
         text=App.join(chat_ids=
                       message.text.replace(" ", "").replace("\n", "").split()))
 
-asyncio.run(app.run())
+app.run()
