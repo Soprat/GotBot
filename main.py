@@ -63,9 +63,9 @@ async def add_targets(bot, message):
 async def join_channels(bot, message):
     """At command 'join' with replying to message, bot will
         join to channels, wroten in this message"""
-    chat_id = await message.text.replace(" ", "").strip().split()
+    chat_id = message.text.replace(" ", "").strip().split()
     await app.send_message(
         chat_id=message.reply_to_message.chat.id,
-        text=App().join(chat_ids=chat_id))
+        text= await App().join(chat_ids=chat_id))
 
 asyncio.run(app.run())
