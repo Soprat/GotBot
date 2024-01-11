@@ -27,7 +27,8 @@ class App():
     async def join(self, chat_ids: list):
         '''Allows bot to join to chats, set in chat_ids'''
         App()
-        for chat_id in map(chat_ids):
+        for chat_id in chat_ids:
+            chat_id = int(chat_id)
             try:
                 await self.app.join_chat(chat_id)
             except Exception:
