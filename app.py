@@ -32,6 +32,6 @@ class App():
             try:
                 await self.app.join_chat(chat_id)
             except Exception:
-                chat_ids.pop(chat_id)
+                chat_ids.pop(chat_ids.index(chat_id))
 
         return f'Sucessfully joined to {len(chat_ids)} channels'
