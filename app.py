@@ -13,12 +13,11 @@ class App():
 
         API_ID: int = environ.get('API_ID')
         API_HASH: str = environ.get('API_HASH')
-        BOT_TOKEN: str = environ.get('BOT_TOKEN')
+        # BOT_TOKEN: str = environ.get('BOT_TOKEN')
 
-        self.app = Client("app",
+        self.app = Client("my_account",
                           api_id=API_ID,
-                          api_hash=API_HASH,
-                          bot_token=BOT_TOKEN)
+                          api_hash=API_HASH)
 
     def creating(self):
         '''Creating of app'''
@@ -26,12 +25,10 @@ class App():
 
     async def join(self, chat_ids: list):
         '''Allows bot to join to chats, set in chat_ids'''
-        App()
-        for chat_id in chat_ids:
-            chat_id = int(chat_id)
+        for chat_id in map(chat_ids):
             try:
                 await self.app.join_chat(chat_id)
             except Exception:
-                chat_ids.pop(chat_ids.index(str(chat_id)))
+                chat_ids.pop(chat_id)
 
         return f'Sucessfully joined to {len(chat_ids)} channels'
