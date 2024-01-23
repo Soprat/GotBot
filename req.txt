@@ -1,5 +1,0 @@
-pyrogram
-asyncio
-aiohttp
-tgcrypto
-uvloop
