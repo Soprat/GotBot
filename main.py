@@ -41,7 +41,7 @@ def create_media_group(caption,  file_types: list[str], file_ids) -> list[InputM
             case 'photo':
                 media_group.add(type='photo', media=file_id)
             case 'video':
-                media_group.add(type='photo', media=file_id)
+                media_group.add(type='video', media=file_id)
             case 'audio':
                 media_group.add(type='audio', media=file_id)
             case 'document':
