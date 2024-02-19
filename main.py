@@ -19,13 +19,13 @@ from database import Database
 
 DEFAULT_DELAY = 0.6
 storage = MemoryStorage()
-bot_token: str = '6739572759:AAHQepgsUc9wDP-uYGwUMDtScs-GNR26x7M'
+bot_token: str = ''
 dp = Dispatcher()
 router = Router(name=__name__)
 base = Database()
 
-donors: list[int] = [-4093149059]
-technical: int = -1002085744420
+donors: list[int] = []
+technical: int = 
 
 bot = Bot(bot_token, parse_mode="HTML")
 
