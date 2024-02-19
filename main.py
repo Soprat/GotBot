@@ -24,8 +24,8 @@ dp = Dispatcher()
 router = Router(name=__name__)
 base = Database()
 
-donors: list[int] = [-4093149059]
-technical: int = -1002085744420
+donors: list[int] = []
+technical: int = 
 
 bot = Bot(bot_token, parse_mode="HTML")
 
