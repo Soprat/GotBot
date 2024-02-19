@@ -8,10 +8,10 @@ class Database:
         self.file_ids = []
         self.caption = None
 
-        self.connection = psycopg2.connect(database="",
-                                           host="",
-                                           user="",
-                                           password="",
+        self.connection = psycopg2.connect(database="aichrrdb",
+                                           host="surus.db.elephantsql.com",
+                                           user="aichrrdb",
+                                           password="cghCrs8TTwRTpxXsBT_yD7FaIaBYMAey",
                                            port=5432)
         self.cursor = self.connection.cursor()
 
