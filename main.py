@@ -19,7 +19,7 @@ from database import Database
 
 DEFAULT_DELAY = 0.6
 storage = MemoryStorage()
-bot_token: str = '6739572759:AAHQepgsUc9wDP-uYGwUMDtScs-GNR26x7M'
+bot_token: str = ''
 dp = Dispatcher()
 router = Router(name=__name__)
 base = Database()
