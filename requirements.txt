@@ -1,0 +1,6 @@
+aiogram
+asyncio
+dataclasses
+logging
+python-dotenv
+psycopg2
