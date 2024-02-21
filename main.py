@@ -96,7 +96,8 @@ async def chat_id(message: Message):
     """/cluster_info <donor>"""
     logger.info('Message cluster_info appeared!')
     donor = message.text.split()[-1]
-    base.get_cluster(base.get_cluster_id(donor))
+    info = base.get_cluster(base.get_cluster_id(donor))
+    await message.reply(info)
 
 
 @dp.message(F.chat.id.in_(donors), F.photo)
